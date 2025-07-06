@@ -1,0 +1,93 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fisioterapia em Processo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <h1>Fisioterapia em Processo</h1>
+    <a href="#" class="active" data-section="inicio">Início</a>
+    <a href="#" data-section="especialidades">Especialidades</a>
+    <a href="#" data-section="artigos">Artigos</a>
+    <a href="#" data-section="questoes">Questões</a>
+    <a href="#" data-section="simulados">Simulados</a>
+    <a href="#" data-section="resumos">Resumo do Dia</a>
+  </nav>
+  <main>
+    <section id="inicio" class="section ativa">
+      <header>
+        <h2>Bem-vinda, Isa!</h2>
+        <p class="frase-motivacional">"Evoluir todo dia, um movimento de cada vez."</p>
+      </header>
+      <p>Esse é o seu espaço de estudos personalizado. Aqui você pode acessar conteúdos diários, revisar especialidades, responder questões, escrever seus resumos e acompanhar seu progresso.</p>
+    </section>
+
+    <section id="resumos" class="section" style="display:none;">
+      <header>
+        <h2>Resumo do Dia</h2>
+      </header>
+      <textarea id="resumo" placeholder="Escreva seu resumo aqui..."></textarea>
+      <button id="salvarResumo">Salvar Resumo</button>
+      <p id="msgSalvar" style="color: green; margin-top: 10px; display:none;">Resumo salvo com sucesso!</p>
+    </section>
+
+    <!-- Futuras seções podem ser adicionadas aqui (especialidades, artigos, questões, simulados) -->
+
+  </main>
+  <footer>
+    <p>Desenvolvido com 💙 por ChatGPT para Isabella</p>
+  </footer>
+
+  <script>
+    // Navegação entre seções
+    const links = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('.section');
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        const target = link.getAttribute('data-section');
+        sections.forEach(sec => {
+          if (sec.id === target) {
+            sec.style.display = 'block';
+          } else {
+            sec.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Função para salvar resumo no localStorage
+    const salvarBtn = document.getElementById('salvarResumo');
+    const resumoTxt = document.getElementById('resumo');
+    const msgSalvar = document.getElementById('msgSalvar');
+
+    // Carregar resumo salvo
+    window.onload = () => {
+      const resumoSalvo = localStorage.getItem('resumoDia');
+      if(resumoSalvo) resumoTxt.value = resumoSalvo;
+    };
+
+    salvarBtn.addEventListener('click', () => {
+      const texto = resumoTxt.value.trim();
+      if(texto.length === 0) {
+        alert('Escreva algo antes de salvar!');
+        return;
+      }
+      localStorage.setItem('resumoDia', texto);
+      msgSalvar.style.display = 'block';
+      setTimeout(() => {
+        msgSalvar.style.display = 'none';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
